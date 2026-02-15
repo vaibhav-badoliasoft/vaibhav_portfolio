@@ -1,65 +1,111 @@
-import Image from "next/image";
+import Link from "next/link";
+import { site, projects, skills, certifications, education } from "@/lib/content";
+import { Card, Pill } from "@/components/ui";
+import { Reveal } from "@/components/Reveal";
+import { GlitchText } from "@/components/GlitchText";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="space-y-12">
+      <Reveal>
+        <section className="rounded-3xl border border-neutral-800 bg-neutral-950/70 p-8 shadow-sm backdrop-blur cy-glow">
+
+          <h1 className="mt-2 text-4xl font-semibold tracking-tight">
+            <GlitchText text={site.headline} className="cy-neon" />
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+          <p className="font-mono text-sm text-neutral-300 mt-2">{site.location}</p>
+
+          <p className="mt-4 max-w-3xl text-lg text-neutral-300">{site.subheadline}</p>
+
+          <div className="mt-6 flex flex-wrap gap-2">
+            {site.keywords.map((k) => (
+              <Pill key={k}>{k}</Pill>
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link href="/projects" className="rounded-2xl bg-white/10 px-5 py-3 text-sm font-semibold hover:bg-white/15">
+              View Projects
+            </Link>
+            <Link href="/resume" className="rounded-2xl border border-neutral-800 px-5 py-3 text-sm font-semibold hover:bg-white/5">
+              Resume
+            </Link>
+            <Link href={site.links.linkedin} className="rounded-2xl border border-neutral-800 px-5 py-3 text-sm font-semibold hover:bg-white/5">
+              LinkedIn
+            </Link>
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="grid gap-6 md:grid-cols-2">
+          {projects.slice(0, 2).map((p) => (
+            <Card key={p.slug}>
+              <h2 className="text-xl font-semibold">{p.title}</h2>
+              <p className="mt-1 text-sm text-neutral-300">{p.subtitle}</p>
+              <p className="mt-4 text-neutral-200">{p.oneLiner}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {p.tech.slice(0, 6).map((t) => (
+                  <Pill key={t}>{t}</Pill>
+                ))}
+              </div>
+              <div className="mt-6">
+                <Link href={`/projects/${p.slug}`} className="font-mono text-sm text-cyan-300 hover:underline">
+                  Details →
+                </Link>
+              </div>
+            </Card>
+          ))}
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="grid gap-6 md:grid-cols-2">
+          <Card>
+            <h3 className="text-lg font-semibold">Certifications</h3>
+            <ul className="mt-4 space-y-2 text-sm text-neutral-200">
+              {certifications.map((c) => (
+                <li key={c}>• {c}</li>
+              ))}
+            </ul>
+          </Card>
+
+          <Card>
+            <h3 className="text-lg font-semibold">Education</h3>
+            <div className="mt-4 space-y-4 text-sm text-neutral-200">
+              {education.map((e) => (
+                <div key={e.school}>
+                  <div className="flex flex-col sm:flex-row sm:justify-between">
+                    <span className="font-semibold">{e.school}</span>
+                    <span className="text-neutral-400">{e.when}</span>
+                  </div>
+                  <div className="text-neutral-300">{e.program}</div>
+                  <ul className="mt-2 space-y-1 text-neutral-200">
+                    {e.bullets.map((b) => (
+                      <li key={b}>• {b}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="grid gap-6 md:grid-cols-2">
+          {Object.entries(skills).slice(0, 8).map(([group, items]) => (
+            <Card key={group}>
+              <h3 className="text-lg font-semibold">{group}</h3>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {items.map((x) => (
+                  <Pill key={x}>{x}</Pill>
+                ))}
+              </div>
+            </Card>
+          ))}
+        </section>
+      </Reveal>
     </div>
   );
 }
